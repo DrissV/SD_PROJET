@@ -3,7 +3,6 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Set;
 
 public class Graph {
@@ -35,8 +34,8 @@ public class Graph {
 		airlines.putIfAbsent(airline.getIata(), airline);
 	}
 
-	public Deque<Route> bfs(Airport airportSource, Airport airportDestination) {
-		Queue<Airport> queue = new ArrayDeque<Airport>();
+	private Deque<Route> bfs(Airport airportSource, Airport airportDestination) {
+		Deque<Airport> queue = new ArrayDeque<Airport>();
 		Set<Airport> visites = new HashSet<Airport>();
 		Map<Airport, Route> itineraires = new HashMap<Airport, Route>();
 		queue.add(airportSource);
@@ -72,9 +71,12 @@ public class Graph {
 	}
 
 	public void calculerItineraireMinimisantDistance(String aeroport1, String aeroport2, String nomFichier) {
-		bfs(airports.get(aeroport1), airports.get(aeroport2));
-		System.out.println(Util.distance(airports.get(aeroport1).getLattitude(), airports.get(aeroport1).getLongitude(),
-				airports.get(aeroport2).getLattitude(), airports.get(aeroport2).getLongitude()));
+		Airport airportSource = airports.get(aeroport1), airportDestination = airports.get(aeroport2);
+		dijkstra(airportSource, airportDestination);
+	}
+
+	private void dijkstra(Airport airportSource, Airport airportDestination) {
+		
 	}
 
 }
