@@ -1,9 +1,21 @@
+import java.io.File;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 public class Graph {
 
@@ -68,15 +80,82 @@ public class Graph {
 	public void calculerItineraireMinimisantNombreVol(String aeroport1, String aeroport2, String nomFichier) {
 		Airport airportSource = airports.get(aeroport1), airportDestination = airports.get(aeroport2);
 		Deque<Route> itineraires = bfs(airportSource, airportDestination);
+		creerDocument(itineraires, nomFichier);
 	}
 
 	public void calculerItineraireMinimisantDistance(String aeroport1, String aeroport2, String nomFichier) {
 		Airport airportSource = airports.get(aeroport1), airportDestination = airports.get(aeroport2);
-		dijkstra(airportSource, airportDestination);
+		Deque<Route> itineraires = dijkstra(airportSource, airportDestination);
+		creerDocument(itineraires, nomFichier);
 	}
 
-	private void dijkstra(Airport airportSource, Airport airportDestination) {
-		
+	private Deque<Route> dijkstra(Airport airportSource, Airport airportDestination) {
+		return new ArrayDeque<Route>();
+	}
+
+	private void creerDocument(Deque<Route> itineraires, String nomFichier) {
+		try {
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.newDocument();
+			Element rootElement = doc.createElement("trajet");
+			int distance = 0, index = 0;
+			for (Route route : itineraires) {
+				index++;
+				Airport airportSource = route.getSource(), airportDestination = route.getDestination();
+				if (index == 1) {
+					Attr depart = doc.createAttribute("depart");
+					depart.setValue(airportSource.getName());
+					rootElement.setAttributeNode(depart);
+				}
+				Element vol = doc.createElement("vol");
+				Attr compagnie = doc.createAttribute("compagnie");
+				compagnie.setValue(route.getAirline().getName());
+				vol.setAttributeNode(compagnie);
+				Attr nombreKm = doc.createAttribute("nombreKm");
+				double nombreKmRoute = route.calculerDistance();
+				distance += nombreKmRoute;
+				nombreKm.setValue(String.valueOf(nombreKmRoute));
+				vol.setAttributeNode(nombreKm);
+				Attr numero = doc.createAttribute("numero");
+				numero.setValue(String.valueOf(index));
+				vol.setAttributeNode(numero);
+				Element source = vol(doc, "source", airportSource);
+				vol.appendChild(source);
+				Element destination = vol(doc, "destination", airportDestination);
+				vol.appendChild(destination);
+				if (index == itineraires.size()) {
+					Attr arrivee = doc.createAttribute("destination");
+					arrivee.setValue(airportDestination.getName());
+					rootElement.setAttributeNode(arrivee);
+					Attr distanceTotale = doc.createAttribute("distance");
+					distanceTotale.setValue(String.valueOf(distance));
+					rootElement.setAttributeNode(distanceTotale);
+				}
+			}
+			// enregistrer dans un fichier
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			DOMSource source = new DOMSource(doc);
+			StreamResult result = new StreamResult(new File(nomFichier));
+			transformer.transform(source, result);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private Element vol(Document doc, String nom, Airport airport) {
+		Element el = doc.createElement(nom);
+		Attr iataCode = doc.createAttribute("iataCode");
+		iataCode.setValue(airport.getIata());
+		el.setAttributeNode(iataCode);
+		Attr pays = doc.createAttribute("pays");
+		pays.setValue(airport.getCountry());
+		el.setAttributeNode(pays);
+		Attr ville = doc.createAttribute("ville");
+		ville.setValue(airport.getCity());
+		el.setAttributeNode(ville);
+		return el;
 	}
 
 }

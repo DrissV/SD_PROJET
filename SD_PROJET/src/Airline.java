@@ -1,7 +1,7 @@
 
 public class Airline {
 
-	public String iata, country, name;
+	private String iata, country, name;
 
 	public Airline(String iata, String country) {
 		super();

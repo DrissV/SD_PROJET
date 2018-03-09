@@ -20,4 +20,8 @@ public class Route {
 		return destination;
 	}
 	
+	public double calculerDistance() {
+		return Util.distance(source.getLattitude(), source.getLongitude(), destination.getLattitude(), destination.getLattitude());
+	}
+	
 }
