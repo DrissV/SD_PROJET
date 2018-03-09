@@ -1,32 +1,20 @@
+import java.util.HashSet;
+import java.util.Set;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class SAXHandler extends DefaultHandler {
 
 	private Graph graph;
 	private Airport airport;
-	private List<Airport> airports;
 	private double longitude, latitude;
 	private boolean okLatitude, okLongitude, okAirline;
 	private Airline airline;
-	private List<Airline> airlines;
 	private Route route;
-	private List<Route> routes;
-	private Map<String, Airport> iataAirport;
-	private Map<String, Airline> iataAirlines;
 
 	public SAXHandler() {
-		airlines = new ArrayList<Airline>();
-		airports = new ArrayList<Airport>();
-		routes = new ArrayList<Route>();
-		iataAirport = new HashMap<String, Airport>();
-		iataAirlines = new HashMap<String, Airline>();
 		graph = new Graph();
 	}
 
@@ -51,9 +39,7 @@ public class SAXHandler extends DefaultHandler {
 			okAirline = true;
 		}
 		if ("route".equalsIgnoreCase(qName)) {
-			route = new Route(iataAirlines.get(attributes.getValue("airline")),
-					iataAirport.get(attributes.getValue("source")),
-					iataAirport.get(attributes.getValue("destination")));
+			graph.addRoute(attributes.getValue("airline"), attributes.getValue("source"), attributes.getValue("destination"));
 		}
 	}
 
@@ -62,15 +48,10 @@ public class SAXHandler extends DefaultHandler {
 		if ("airport".equalsIgnoreCase(qName)) {
 			airport.setLattitude(latitude);
 			airport.setLongitude(longitude);
-			airports.add(airport);
-			iataAirport.put(airport.getIata(), airport);
+			graph.addAirport(airport);
 		}
 		if ("airline".equalsIgnoreCase(qName)) {
-			airlines.add(airline);
-			iataAirlines.put(airline.getIata(), airline);
-		}
-		if ("route".equalsIgnoreCase(qName)) {
-			routes.add(route);
+			graph.addAirline(airline);
 		}
 	}
 

@@ -6,6 +6,9 @@ public class Airport {
 	
 	public Airport(String iata, String name, String city, String country) {
 		super();
+		if (!iata.matches("([0-9]|[A-Z]){3}")) {
+			throw new IllegalArgumentException("IataAirport pattern incorrect");
+		}
 		this.iata = iata;
 		this.name = name;
 		this.city = city;

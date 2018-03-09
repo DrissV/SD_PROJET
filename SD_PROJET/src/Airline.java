@@ -1,10 +1,13 @@
 
 public class Airline {
 
-	public String iata, country;
+	public String iata, country, name;
 
 	public Airline(String iata, String country) {
 		super();
+		if (!iata.matches("_([0-9]|[A-Z]){2}")) {
+			throw new IllegalArgumentException("IataAirline pattern incorrect");
+		}
 		this.iata = iata;
 		this.country = country;
 	}
@@ -15,6 +18,14 @@ public class Airline {
 
 	public String getCountry() {
 		return country;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override
