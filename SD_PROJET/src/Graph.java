@@ -1,4 +1,5 @@
 import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -34,7 +35,7 @@ public class Graph {
 		airlines.putIfAbsent(airline.getIata(), airline);
 	}
 
-	public Map<Airport, Route> bfs(Airport airportSource, Airport airportDestination) {
+	public Deque<Route> bfs(Airport airportSource, Airport airportDestination) {
 		Queue<Airport> queue = new ArrayDeque<Airport>();
 		Set<Airport> visites = new HashSet<Airport>();
 		Map<Airport, Route> itineraires = new HashMap<Airport, Route>();
@@ -55,18 +56,19 @@ public class Graph {
 				}
 			}
 		}
-		return itineraires;
+		Airport depart = airportDestination;
+		Deque<Route> routes = new ArrayDeque<Route>();
+		Route route;
+		while ((route = itineraires.get(depart)) != null) {
+			routes.addFirst(route);
+			depart = route.getSource();
+		}
+		return routes;
 	}
 
 	public void calculerItineraireMinimisantNombreVol(String aeroport1, String aeroport2, String nomFichier) {
-		Airport airportSource = airports.get(aeroport1), airportDestination = airports.get(aeroport2), depart = airportDestination;
-		Map<Airport, Route> itineraires = bfs(airportSource, airportDestination);
-		Route route;
-		while ((route = itineraires.get(depart)) != null) {
-			System.out.println(depart.getIata());
-			depart = route.getSource();
-		}
-		System.out.println(depart.getIata());
+		Airport airportSource = airports.get(aeroport1), airportDestination = airports.get(aeroport2);
+		Deque<Route> itineraires = bfs(airportSource, airportDestination);
 	}
 
 	public void calculerItineraireMinimisantDistance(String aeroport1, String aeroport2, String nomFichier) {
