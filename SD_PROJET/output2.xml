@@ -1,15 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<trajet depart="Brussels Airport" destination="Faa'a International Airport" distance="18337">
-	<vol compagnie="Scandinavian Airlines System&#10;&#9;" nombreKm="3361.9673742862533" numero="1">
-		<source iataCode="BRU" pays="Belgium" ville="Brussels">Brussels</source>
-		<destination iataCode="CPH" pays="Denmark" ville="Copenhagen">Copenhagen</destination>
-	</vol>
-	<vol compagnie="Norwegian Air Shuttle" nombreKm="2912.1345452849546" numero="2">
-		<source iataCode="CPH" pays="Denmark" ville="Copenhagen">Copenhagen</source>
-		<destination iataCode="LAX" pays="United States" ville="Los Angeles">Los Angeles</destination>
-	</vol>
-	<vol compagnie="Air New Zealand" nombreKm="12064.374593946264" numero="3">
-		<source iataCode="LAX" pays="United States" ville="Los Angeles">Los Angeles</source>
-		<destination iataCode="PPT" pays="French Polynesia" ville="Papeete">Papeete</destination>
-	</vol>
-</trajet>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><trajet depart="Brussels Airport" destination="Faa'a International Airport" distance="18338.47651351747"><vol compagnie="Scandinavian Airlines System&#10;&#9;" nombreKm="3361.9673742862533" numero="1"><source iataCode="BRU" pays="Belgium" ville="Brussels">Brussels</source><destination iataCode="CPH" pays="Denmark" ville="Copenhagen">Copenhagen</destination></vol><vol compagnie="Norwegian Air Shuttle" nombreKm="2912.1345452849546" numero="2"><source iataCode="CPH" pays="Denmark" ville="Copenhagen">Copenhagen</source><destination iataCode="LAX" pays="United States" ville="Los Angeles">Los Angeles</destination></vol><vol compagnie="Air New Zealand" nombreKm="12064.374593946264" numero="3"><source iataCode="LAX" pays="United States" ville="Los Angeles">Los Angeles</source><destination iataCode="PPT" pays="French Polynesia" ville="Papeete">Papeete</destination></vol></trajet>
