@@ -10,13 +10,16 @@ import java.util.stream.Collectors;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Attr;
+import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
+import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
 
 public class Graph {
@@ -82,7 +85,8 @@ public class Graph {
 	public void calculerItineraireMinimisantNombreVol(String aeroport1, String aeroport2, String nomFichier) {
 		Airport airportSource = airports.get(aeroport1), airportDestination = airports.get(aeroport2);
 		Deque<Route> itineraires = bfs(airportSource, airportDestination);
-		System.out.println(itineraires.stream().collect(Collectors.summingDouble(Route::calculerDistance)).doubleValue());
+		System.out
+				.println(itineraires.stream().collect(Collectors.summingDouble(Route::calculerDistance)).doubleValue());
 		creerDocument(itineraires, nomFichier);
 	}
 
@@ -165,6 +169,14 @@ public class Graph {
 			// enregistrer dans un fichier
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+			transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+			transformer.setOutputProperty(OutputKeys.STANDALONE, "no");
+			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+			/*DOMImplementation domImpl = doc.getImplementation();
+			DocumentType doctype = domImpl.createDocumentType("doctype", "SYSTEM", "trajet.dtd");
+			transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, doctype.getSystemId());*/
 			DOMSource source = new DOMSource(doc);
 			StreamResult result = new StreamResult(new File(nomFichier));
 			transformer.transform(source, result);
@@ -173,7 +185,7 @@ public class Graph {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private Element vol(Document doc, Element el, Airport airport) {
 		Attr iataCode = doc.createAttribute("iataCode");
 		iataCode.setValue(airport.getIata());
