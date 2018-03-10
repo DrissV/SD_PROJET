@@ -155,6 +155,7 @@ public class Graph {
 		Attr ville = doc.createAttribute("ville");
 		ville.setValue(airport.getCity());
 		el.setAttributeNode(ville);
+		el.appendChild(doc.createTextNode(airport.getCity()));
 		return el;
 	}
 
