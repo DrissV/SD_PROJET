@@ -102,6 +102,7 @@ public class Graph {
 			int distance = 0, index = 0;
 			for (Route route : itineraires) {
 				index++;
+				System.out.println(index);
 				Airport airportSource = route.getSource(), airportDestination = route.getDestination();
 				if (index == 1) {
 					Attr depart = doc.createAttribute("depart");
@@ -120,10 +121,33 @@ public class Graph {
 				Attr numero = doc.createAttribute("numero");
 				numero.setValue(String.valueOf(index));
 				vol.setAttributeNode(numero);
-				Element source = vol(doc, "source", airportSource);
+				Element source = doc.createElement("source");
+				/*Attr iataCode = doc.createAttribute("iataCode");
+				iataCode.setValue(airportSource.getIata());
+				source.setAttributeNode(iataCode);
+				Attr pays = doc.createAttribute("pays");
+				pays.setValue(airportSource.getCountry());
+				source.setAttributeNode(pays);
+				Attr ville = doc.createAttribute("ville");
+				ville.setValue(airportSource.getCity());
+				source.setAttributeNode(ville);
+				source.appendChild(doc.createTextNode(airportSource.getCity()));*/
+				source = vol(doc, source, airportSource);
 				vol.appendChild(source);
-				Element destination = vol(doc, "destination", airportDestination);
+				Element destination = doc.createElement("destination");
+				/*iataCode = doc.createAttribute("iataCode");
+				iataCode.setValue(airportDestination.getIata());
+				destination.setAttributeNode(iataCode);
+				pays = doc.createAttribute("pays");
+				pays.setValue(airportDestination.getCountry());
+				destination.setAttributeNode(pays);
+				ville = doc.createAttribute("ville");
+				ville.setValue(airportDestination.getCity());
+				destination.setAttributeNode(ville);
+				destination.appendChild(doc.createTextNode(airportDestination.getCity()));*/
+				destination = vol(doc, destination, airportDestination);
 				vol.appendChild(destination);
+				rootElement.appendChild(vol);
 				if (index == itineraires.size()) {
 					Attr arrivee = doc.createAttribute("destination");
 					arrivee.setValue(airportDestination.getName());
@@ -133,19 +157,20 @@ public class Graph {
 					rootElement.setAttributeNode(distanceTotale);
 				}
 			}
+			doc.appendChild(rootElement);
 			// enregistrer dans un fichier
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
 			StreamResult result = new StreamResult(new File(nomFichier));
 			transformer.transform(source, result);
+			System.out.println("Ok enregistrement fichier");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
-	private Element vol(Document doc, String nom, Airport airport) {
-		Element el = doc.createElement(nom);
+	
+	private Element vol(Document doc, Element el, Airport airport) {
 		Attr iataCode = doc.createAttribute("iataCode");
 		iataCode.setValue(airport.getIata());
 		el.setAttributeNode(iataCode);
