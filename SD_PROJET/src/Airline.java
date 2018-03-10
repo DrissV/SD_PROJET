@@ -19,11 +19,11 @@ public class Airline {
 	public String getCountry() {
 		return country;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -48,4 +48,8 @@ public class Airline {
 		return iata.equals(other.iata);
 	}
 
+	@Override
+	public String toString() {
+		return "Airline [iata=" + iata + ", country=" + country + ", name=" + name + "]";
+	}
 }

@@ -3,7 +3,7 @@ public class Airport {
 
 	private double longitude, lattitude;
 	private String iata, name, city, country;
-	
+
 	public Airport(String iata, String name, String city, String country) {
 		super();
 		if (!iata.matches("([0-9]|[A-Z]){3}")) {
@@ -18,7 +18,7 @@ public class Airport {
 	public String getIata() {
 		return iata;
 	}
-	
+
 	public double getLongitude() {
 		return longitude;
 	}
@@ -38,11 +38,11 @@ public class Airport {
 	public String getCountry() {
 		return country;
 	}
-	
+
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
-	
+
 	public void setLattitude(double lattitude) {
 		this.lattitude = lattitude;
 	}
@@ -66,4 +66,11 @@ public class Airport {
 		Airport other = (Airport) obj;
 		return iata.equals(other.iata);
 	}
+
+	@Override
+	public String toString() {
+		return "Airport [longitude=" + longitude + ", lattitude=" + lattitude + ", iata=" + iata + ", name=" + name
+				+ ", city=" + city + ", country=" + country + "]";
+	}
+
 }

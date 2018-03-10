@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -80,6 +82,7 @@ public class Graph {
 	public void calculerItineraireMinimisantNombreVol(String aeroport1, String aeroport2, String nomFichier) {
 		Airport airportSource = airports.get(aeroport1), airportDestination = airports.get(aeroport2);
 		Deque<Route> itineraires = bfs(airportSource, airportDestination);
+		System.out.println(itineraires.stream().collect(Collectors.summingDouble(Route::calculerDistance)).doubleValue());
 		creerDocument(itineraires, nomFichier);
 	}
 
@@ -99,7 +102,8 @@ public class Graph {
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.newDocument();
 			Element rootElement = doc.createElement("trajet");
-			int distance = 0, index = 0;
+			int index = 0;
+			double distance = 0;
 			for (Route route : itineraires) {
 				index++;
 				System.out.println(index);
