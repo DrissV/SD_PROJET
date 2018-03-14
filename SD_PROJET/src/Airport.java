@@ -1,7 +1,7 @@
 
 public class Airport {
 
-	private double longitude, lattitude;
+	private double longitude, lattitude, cout;
 	private String iata, name, city, country;
 
 	public Airport(String iata, String name, String city, String country) {
@@ -9,6 +9,7 @@ public class Airport {
 		if (!iata.matches("([0-9]|[A-Z]){3}")) {
 			throw new IllegalArgumentException("IataAirport pattern incorrect");
 		}
+		this.cout = Double.MAX_VALUE;
 		this.iata = iata;
 		this.name = name;
 		this.city = city;
@@ -71,6 +72,14 @@ public class Airport {
 	public String toString() {
 		return "Airport [longitude=" + longitude + ", lattitude=" + lattitude + ", iata=" + iata + ", name=" + name
 				+ ", city=" + city + ", country=" + country + "]";
+	}
+	
+	public double getCout() {
+		return cout;
+	}
+	
+	public void setCout(double cout) {
+		this.cout = cout;
 	}
 
 }
