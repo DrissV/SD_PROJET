@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
@@ -97,51 +98,62 @@ public class Graph {
 		Map<Airport, Route> itineraires = new HashMap<Airport, Route>();
 		Comparator<Airport> comparator = new Comparator<Airport>() {
 			public int compare(Airport a1, Airport a2) {
-				return (int) (a1.getCout() - a2.getCout());
+				int cout = (int) (a1.getCout() - a2.getCout());
+				if (cout == 0) {
+					return a1.getIata().compareTo(a2.getIata());
+				}
+				return cout;
 			}
 		};
 		SortedSet<Airport> etiquettesProvisoires = new TreeSet<Airport>(comparator);
-		SortedSet<Airport> etiquettesDefinitives = new TreeSet<Airport>(comparator);
+		Set<Airport> etiquettesDefinitives = new HashSet<Airport>();
 		Deque<Route> routes = new ArrayDeque<Route>();
 		Airport current = airportSource;
 		current.setCout(0);
 		double distanceTotale = 0, distance;
 		etiquettesDefinitives.add(current);
 		while (!current.equals(airportDestination)) {
-			System.out.println(current);
 			Set<Route> routesVol = vols.get(current);
-			for (Route route : routesVol) {
-				if (route == null) {
-					return routes;
-				}
-				Airport destination = route.getDestination();
-				if (!etiquettesDefinitives.contains(destination)) {
-					distance = etiquettesDefinitives.first().getCout() + destination.getCout();
-					if (etiquettesProvisoires.contains(destination)) {
-						if (etiquettesProvisoires.first().getCout() > distance) {
-							destination.setCout(distance);
-							etiquettesProvisoires.add(destination);
-							itineraires.put(destination, route);
+			if (routesVol != null) {
+				for (Route route : routesVol) {
+					if (route != null) {
+						Airport destination = route.getDestination();
+						if (!etiquettesDefinitives.contains(destination)) {
+							distance = current.getCout() + destination.getCout();
+							if (etiquettesProvisoires.contains(destination)) {
+								if (etiquettesProvisoires.first().getCout() > distance) {
+									destination.setCout(distance);
+									etiquettesProvisoires.add(destination);
+									itineraires.put(destination, route);
+								}
+							} else {
+								destination.setCout(distance);
+								etiquettesProvisoires.add(destination);
+								itineraires.put(destination, route);
+							}
 						}
-					} else {
-						destination.setCout(distance);
-						etiquettesProvisoires.add(destination);
-						itineraires.put(destination, route);
 					}
 				}
+			} else {
+				break;
 			}
-			if (etiquettesProvisoires.isEmpty()) {
-				return routes;
+			if (!etiquettesProvisoires.isEmpty()) {
+				current = etiquettesProvisoires.first();
+				etiquettesDefinitives.add(current);
+				etiquettesProvisoires.remove(current);
+			} else {
+				break;
 			}
-			current = etiquettesProvisoires.first();
-			etiquettesDefinitives.add(current);
-			etiquettesProvisoires.remove(current);
 		}
 		Airport depart = airportDestination;
 		Route route;
 		while ((route = itineraires.get(depart)) != null) {
+			distanceTotale += route.calculerDistance();
 			routes.addFirst(route);
 			depart = route.getSource();
+		}
+		for(Route r : routes) {
+			System.out.println(r);
 		}
 		return routes;
 	}
@@ -154,6 +166,7 @@ public class Graph {
 			Element rootElement = doc.createElement("trajet");
 			int index = 0;
 			double distance = 0;
+			System.out.println("iteneraires = " + itineraires);
 			for (Route route : itineraires) {
 				index++;
 				System.out.println(index);
