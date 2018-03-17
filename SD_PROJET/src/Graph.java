@@ -4,7 +4,6 @@ import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
@@ -19,7 +18,9 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Attr;
+import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
+import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
 
 public class Graph {
@@ -116,34 +117,32 @@ public class Graph {
 			Set<Route> routesVol = vols.get(current);
 			if (routesVol != null) {
 				for (Route route : routesVol) {
-					if (route != null) {
-						Airport destination = route.getDestination();
-						if (!etiquettesDefinitives.contains(destination)) {
-							distance = current.getCout() + destination.getCout();
-							if (etiquettesProvisoires.contains(destination)) {
-								if (etiquettesProvisoires.first().getCout() > distance) {
-									destination.setCout(distance);
-									etiquettesProvisoires.add(destination);
-									itineraires.put(destination, route);
-								}
-							} else {
+					if (route == null) {
+						return routes;
+					}
+					Airport destination = route.getDestination();
+					if (!etiquettesDefinitives.contains(destination)) {
+						distance = current.getCout() + destination.getCout();
+						if (etiquettesProvisoires.contains(destination)) {
+							if (etiquettesProvisoires.first().getCout() > distance) {
 								destination.setCout(distance);
 								etiquettesProvisoires.add(destination);
 								itineraires.put(destination, route);
 							}
+						} else {
+							destination.setCout(distance);
+							etiquettesProvisoires.add(destination);
+							itineraires.put(destination, route);
 						}
 					}
 				}
-			} else {
-				break;
 			}
-			if (!etiquettesProvisoires.isEmpty()) {
-				current = etiquettesProvisoires.first();
-				etiquettesDefinitives.add(current);
-				etiquettesProvisoires.remove(current);
-			} else {
-				break;
+			if (etiquettesProvisoires.isEmpty()) {
+				return routes;
 			}
+			current = etiquettesProvisoires.first();
+			etiquettesDefinitives.add(current);
+			etiquettesProvisoires.remove(current);
 		}
 		Airport depart = airportDestination;
 		Route route;
@@ -152,7 +151,7 @@ public class Graph {
 			routes.addFirst(route);
 			depart = route.getSource();
 		}
-		for(Route r : routes) {
+		for (Route r : routes) {
 			System.out.println(r);
 		}
 		return routes;
@@ -189,28 +188,9 @@ public class Graph {
 				numero.setValue(String.valueOf(index));
 				vol.setAttributeNode(numero);
 				Element source = doc.createElement("source");
-				/*
-				 * Attr iataCode = doc.createAttribute("iataCode");
-				 * iataCode.setValue(airportSource.getIata());
-				 * source.setAttributeNode(iataCode); Attr pays = doc.createAttribute("pays");
-				 * pays.setValue(airportSource.getCountry()); source.setAttributeNode(pays);
-				 * Attr ville = doc.createAttribute("ville");
-				 * ville.setValue(airportSource.getCity()); source.setAttributeNode(ville);
-				 * source.appendChild(doc.createTextNode(airportSource.getCity()));
-				 */
 				source = vol(doc, source, airportSource);
 				vol.appendChild(source);
 				Element destination = doc.createElement("destination");
-				/*
-				 * iataCode = doc.createAttribute("iataCode");
-				 * iataCode.setValue(airportDestination.getIata());
-				 * destination.setAttributeNode(iataCode); pays = doc.createAttribute("pays");
-				 * pays.setValue(airportDestination.getCountry());
-				 * destination.setAttributeNode(pays); ville = doc.createAttribute("ville");
-				 * ville.setValue(airportDestination.getCity());
-				 * destination.setAttributeNode(ville);
-				 * destination.appendChild(doc.createTextNode(airportDestination.getCity()));
-				 */
 				destination = vol(doc, destination, airportDestination);
 				vol.appendChild(destination);
 				rootElement.appendChild(vol);
@@ -232,12 +212,9 @@ public class Graph {
 			transformer.setOutputProperty(OutputKeys.METHOD, "xml");
 			transformer.setOutputProperty(OutputKeys.STANDALONE, "no");
 			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-			/*
-			 * DOMImplementation domImpl = doc.getImplementation(); DocumentType doctype =
-			 * domImpl.createDocumentType("doctype", "SYSTEM", "trajet.dtd");
-			 * transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM,
-			 * doctype.getSystemId());
-			 */
+			DOMImplementation domImpl = doc.getImplementation();
+			DocumentType doctype = domImpl.createDocumentType("doctype", "SYSTEM", "trajet.dtd");
+			transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, doctype.getSystemId());
 			DOMSource source = new DOMSource(doc);
 			StreamResult result = new StreamResult(new File(nomFichier));
 			transformer.transform(source, result);
