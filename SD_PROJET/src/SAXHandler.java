@@ -58,15 +58,15 @@ public class SAXHandler extends DefaultHandler {
 	@Override
 	public void characters(char[] ch, int start, int length) throws SAXException {
 		if (okLongitude) {
-			longitude = Double.parseDouble(new String(ch, start, length));
+			longitude = Double.parseDouble(new String(ch, start, length).trim());
 			okLongitude = false;
 		}
 		if (okLatitude) {
-			latitude = Double.parseDouble(new String(ch, start, length));
+			latitude = Double.parseDouble(new String(ch, start, length).trim());
 			okLatitude = false;
 		}
 		if (okAirline) {
-			airline.setName(new String(ch, start, length));
+			airline.setName(new String(ch, start, length).trim());
 			okAirline = false;
 		}
 	}
