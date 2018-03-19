@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE trajet SYSTEM "trajet.dtd">
-<trajet depart="Brussels Airport" destination="Faa'a International Airport" distance="33129.571250626075">
-<vol compagnie="Brussels Airlines" nombreKm="4220.771349227299" numero="1">
-<source iataCode="BRU" pays="Belgium" ville="Brussels">Brussels</source>
-<destination iataCode="BKK" pays="Thailand" ville="Bangkok">Bangkok</destination>
-</vol>
-<vol compagnie="Thai Airways International" nombreKm="15098.015960907362" numero="2">
-<source iataCode="BKK" pays="Thailand" ville="Bangkok">Bangkok</source>
-<destination iataCode="AKL" pays="New Zealand" ville="Auckland">Auckland</destination>
-</vol>
-<vol compagnie="Qantas" nombreKm="13810.783940491412" numero="3">
-<source iataCode="AKL" pays="New Zealand" ville="Auckland">Auckland</source>
-<destination iataCode="PPT" pays="French Polynesia" ville="Papeete">Papeete</destination>
-</vol>
+<trajet depart="Brussels Airport" destination="Faa'a International Airport"
+	distance="29278.8785908546">
+	<vol compagnie="United Airlines" nombreKm="2984.879286820756"
+		numero="1">
+		<source iataCode="BRU" pays="Belgium" ville="Brussels">Brussels</source>
+		<destination iataCode="IAD" pays="United States" ville="Washington">Washington</destination>
+	</vol>
+	<vol compagnie="United Airlines" nombreKm="9250.029188070803"
+		numero="2">
+		<source iataCode="IAD" pays="United States" ville="Washington">Washington</source>
+		<destination iataCode="NRT" pays="Japan" ville="Tokyo">Tokyo</destination>
+	</vol>
+	<vol compagnie="Air Tahiti Nui" nombreKm="17043.970115963042"
+		numero="3">
+		<source iataCode="NRT" pays="Japan" ville="Tokyo">Tokyo</source>
+		<destination iataCode="PPT" pays="French Polynesia" ville="Papeete">Papeete</destination>
+	</vol>
 </trajet>
