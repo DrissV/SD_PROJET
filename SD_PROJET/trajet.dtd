@@ -1,6 +1,6 @@
 <!ELEMENT trajet (vol+)>
 <!ATTLIST trajet depart CDATA #REQUIRED>
-<!ATTLIST trajet destibation CDATA #REQUIRED>
+<!ATTLIST trajet destination CDATA #REQUIRED>
 <!ATTLIST trajet distance CDATA #REQUIRED>
 <!ELEMENT vol (source, destination)>
 <!ATTLIST vol compagnie CDATA #REQUIRED>
