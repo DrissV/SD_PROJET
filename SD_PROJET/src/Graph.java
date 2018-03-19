@@ -94,12 +94,18 @@ public class Graph {
 		Deque<Route> itineraires = dijkstra(airportSource, airportDestination);
 		creerDocument(itineraires, nomFichier);
 	}
+	
+	public void calculerItineraireMinimisantNombreCompagnie(String aeroport1, String aeroport2, String nomFichier) {
+		Airport airportSource = airports.get(aeroport1), airportDestination = airports.get(aeroport2);
+		Deque<Route> itineraires = null;
+		creerDocument(itineraires, nomFichier);
+	}
 
 	private Deque<Route> dijkstra(Airport airportSource, Airport airportDestination) {
 		Map<Airport, Route> itineraires = new HashMap<Airport, Route>();
 		Comparator<Airport> comparator = new Comparator<Airport>() {
 			public int compare(Airport a1, Airport a2) {
-				int cout = (int) (a1.getCout() - a2.getCout());
+				int cout = Double.compare(a1.getCout(), a2.getCout());
 				if (cout == 0) {
 					return a1.getIata().compareTo(a2.getIata());
 				}
@@ -122,7 +128,7 @@ public class Graph {
 					}
 					Airport destination = route.getDestination();
 					if (!etiquettesDefinitives.contains(destination)) {
-						distance = current.getCout() + destination.getCout();
+						distance = current.getCout() + route.calculerDistance();
 						if (etiquettesProvisoires.contains(destination)) {
 							if (etiquettesProvisoires.first().getCout() > distance) {
 								destination.setCout(distance);
@@ -168,7 +174,6 @@ public class Graph {
 			System.out.println("iteneraires = " + itineraires);
 			for (Route route : itineraires) {
 				index++;
-				System.out.println(index);
 				Airport airportSource = route.getSource(), airportDestination = route.getDestination();
 				if (index == 1) {
 					Attr depart = doc.createAttribute("depart");
