@@ -119,7 +119,9 @@ public class Graph {
 		current.setCout(0);
 		double distanceTotale = 0, distance;
 		etiquettesDefinitives.add(current);
+		//Problem 1 is here
 		while (!current.equals(airportDestination)) {
+			//FIXME
 			Set<Route> routesVol = vols.get(current);
 			if (routesVol != null) {
 				for (Route route : routesVol) {
@@ -127,20 +129,23 @@ public class Graph {
 						return routes;
 					}
 					Airport destination = route.getDestination();
+					//Problem 2 is here
 					if (!etiquettesDefinitives.contains(destination)) {
 						distance = current.getCout() + route.calculerDistance();
 						if (etiquettesProvisoires.contains(destination)) {
-							if (etiquettesProvisoires.first().getCout() > distance) {
+							if (etiquettesProvisoires.first().getCout() > distance) {//If Condition
+								//Do A
 								destination.setCout(distance);
 								etiquettesProvisoires.add(destination);
 								itineraires.put(destination, route);
 							}
-						} else {
+						} else {//else
+							//Do A
 							destination.setCout(distance);
 							etiquettesProvisoires.add(destination);
 							itineraires.put(destination, route);
 						}
-					}
+					}//FIXME
 				}
 			}
 			if (etiquettesProvisoires.isEmpty()) {
