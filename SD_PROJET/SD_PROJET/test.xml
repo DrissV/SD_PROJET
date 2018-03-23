@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flight>
+	<airports>
+		<airport iata="BLI" name="BLIN" city="Blyat"
+			country="RUSH B">
+			<longitude>0.0</longitude>
+			<latitude>0.0</latitude>
+		</airport>
+		<airport iata="POI" name="Yuudachi" city="Kuchikukan"
+			country="Kancolle">
+			<longitude>1.0</longitude>
+			<latitude>4.0</latitude>
+		</airport>
+		<airport iata="PPK" name="Ian Mc Collum" city="Mount Hagen"
+			country="Papua New Guinea">
+			<longitude>5.0</longitude>
+			<latitude>5.0</latitude>
+		</airport>
+		<airport iata="LAE" name="Nadzab Airport" city="Nadzab"
+			country="Papua New Guinea">
+			<longitude>-5.0</longitude>
+			<latitude>7.0</latitude>
+		</airport>
+		<airport iata="WIN" name="wangblows" city="GNU/Linux">
+			<longitude>-3.0</longitude>
+			<latitude>-3.0</latitude>
+		</airport>
+		<airport iata="CHN" name="We dindu nuffin" city="weaponized autism"></airport>
+	</airports>
+	<airlines>
+		<airline iata="_CB" country="Chernobyl">Cheeki Breeki</airline>
+	</airlines>
+	<routes>
+		<route airline="_CB" source="BLI" destination="POI"/>
+		<route airline="_CB" source="BLI" destination="PPK"/>
+		<route airline="_CB" source="MAG" destination="HGU"/>
+		<route airline="_CB" source="GKA" destination="MAG"/>
+	</routes>
+</flight>
