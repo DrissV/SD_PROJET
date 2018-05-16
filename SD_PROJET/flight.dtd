@@ -1,4 +1,4 @@
-<!ELEMENT flight (airports+, airlines+, routes+) >
+<!ELEMENT flight (airports, airlines, routes) >
 <!ELEMENT airports (airport+)>
 <!ELEMENT airport (longitude, latitude)>
 <!ATTLIST airport iata ID #REQUIRED>

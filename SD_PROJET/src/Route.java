@@ -24,7 +24,7 @@ public class Route {
 	}
 
 	public double calculerDistance() {
-		return Util.distance(source.getLattitude(), source.getLongitude(), destination.getLattitude(),
+		return Util.distance(source.getLatitude(), source.getLongitude(), destination.getLatitude(),
 				destination.getLongitude());
 	}
 

@@ -1,7 +1,7 @@
 
 public class Airport {
 
-	private double longitude, lattitude, cout;
+	private double longitude, latitude, cout;
 	private String iata, name, city, country;
 
 	public Airport(String iata, String name, String city, String country) {
@@ -24,8 +24,8 @@ public class Airport {
 		return longitude;
 	}
 
-	public double getLattitude() {
-		return lattitude;
+	public double getLatitude() {
+		return latitude;
 	}
 
 	public String getName() {
@@ -44,8 +44,8 @@ public class Airport {
 		this.longitude = longitude;
 	}
 
-	public void setLattitude(double lattitude) {
-		this.lattitude = lattitude;
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
 	}
 
 	@Override
@@ -75,7 +75,7 @@ public class Airport {
 
 	@Override
 	public String toString() {
-		return "Airport [longitude=" + longitude + ", lattitude=" + lattitude + ", iata=" + iata + ", name=" + name
+		return "Airport [longitude=" + longitude + ", latitude=" + latitude + ", iata=" + iata + ", name=" + name
 				+ ", city=" + city + ", country=" + country + "]";
 	}
 	

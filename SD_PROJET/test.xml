@@ -33,10 +33,7 @@
 	<routes>
 		<route airline="_CB" source="BLI" destination="POI"/>
 		<route airline="_CB" source="BLI" destination="PPK"/>
-		<route airline="_CB" source="PPK" destination="LAE"/>
-		<route airline="_CB" source="BLI" destination="WIN"/>
-		<route airline="_CB" source="WIN" destination="POI"/>
-		<route airline="_CB" source="POI" destination="CHN"/>
-		<route airline="_CB" source="LAE" destination="CHN"/>
+		<route airline="_CB" source="MAG" destination="HGU"/>
+		<route airline="_CB" source="GKA" destination="MAG"/>
 	</routes>
 </flight>

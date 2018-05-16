@@ -46,7 +46,7 @@ public class SAXHandler extends DefaultHandler {
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		if ("airport".equalsIgnoreCase(qName)) {
-			airport.setLattitude(latitude);
+			airport.setLatitude(latitude);
 			airport.setLongitude(longitude);
 			graph.addAirport(airport);
 		}
@@ -58,15 +58,15 @@ public class SAXHandler extends DefaultHandler {
 	@Override
 	public void characters(char[] ch, int start, int length) throws SAXException {
 		if (okLongitude) {
-			longitude = Double.parseDouble(new String(ch, start, length).trim());
+			longitude = Double.valueOf(new String(ch, start, length));
 			okLongitude = false;
 		}
 		if (okLatitude) {
-			latitude = Double.parseDouble(new String(ch, start, length).trim());
+			latitude = Double.valueOf(new String(ch, start, length));
 			okLatitude = false;
 		}
 		if (okAirline) {
-			airline.setName(new String(ch, start, length).trim());
+			airline.setName(new String(ch, start, length));
 			okAirline = false;
 		}
 	}

@@ -14,6 +14,7 @@ public class Main {
 			Graph g = userhandler.getGraph();
 			g.calculerItineraireMinimisantDistance("BRU", "PPT", "output.xml");
 			g.calculerItineraireMinimisantNombreVol("BRU", "PPT", "output2.xml");
+			System.out.println(g.nbrComposantesConnexes());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
